@@ -1,0 +1,123 @@
+{
+  "manifest_version": 3,
+  "name": "Mentari Mod - Ekstensi Belajar UNPAM",
+  "version": "3.0",
+  "description": "Ekstensi belajar MENTARI UNPAM dengan pelacakan forum, bantuan quiz, smart kuesioner, dan presensi. v3.0 Revised • Tuning by Rixz (Fork of Alfinas Sandi).",
+  "minimum_chrome_version": "116",
+  "permissions": ["scripting", "activeTab", "storage"],
+  "host_permissions": [
+    "https://mentari.unpam.ac.id/*",
+    "https://my.unpam.ac.id/*",
+    "https://route.bogorcreativa.co.id/*",
+    "https://generativelanguage.googleapis.com/*",
+    "https://api.groq.com/*",
+    "https://api.openai.com/*",
+    "https://openrouter.ai/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "http://[::1]/*"
+  ],
+  "background": {
+    "service_worker": "src/background/serviceWorker.js"
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "action": {
+    "default_popup": "src/popup/popup.html",
+    "default_icon": {
+      "16": "src/assets/icon-16.png",
+      "32": "src/assets/icon-32.png",
+      "48": "src/assets/icon-48.png",
+      "128": "src/assets/icon-128.png"
+    }
+  },
+  "commands": {
+    "toggle-mentari-panel": {
+      "suggested_key": {
+        "default": "Alt+Shift+M",
+        "mac": "Alt+Shift+M"
+      },
+      "description": "Buka atau tutup panel Mentari Mod"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://mentari.unpam.ac.id/*"],
+      "exclude_matches": ["https://mentari.unpam.ac.id/login*"],
+      "run_at": "document_end",
+      "js": [
+        "src/content/theme.js",
+        "src/content/mentariFetchGuard.js",
+        "src/shared/aiProtocol.js",
+        "src/content/aiClient.js",
+        "src/content/apiKeyManager.js",
+        "src/content/token.js",
+        "src/content/content.js",
+        "src/content/kuisionerSolver.js",
+        "src/content/kuisioner.js",
+        "src/content/quizSolver.js",
+        "src/content/quiz.js"
+      ]
+    },
+    {
+      "matches": ["https://mentari.unpam.ac.id/login*"],
+      "run_at": "document_end",
+      "js": ["src/content/theme.js", "src/content/home.js"]
+    },
+    {
+      "matches": ["https://mentari.unpam.ac.id/u-courses/*/forum/*/topics/*"],
+      "run_at": "document_idle",
+      "js": ["src/content/discus.js"]
+    },
+    {
+      "matches": ["https://my.unpam.ac.id/*"],
+      "exclude_matches": ["https://my.unpam.ac.id/login*"],
+      "run_at": "document_idle",
+      "js": [
+        "src/content/theme.js",
+        "src/shared/aiProtocol.js",
+        "src/content/aiClient.js",
+        "src/content/presensi.js",
+        "src/content/kuisionerSolver.js",
+        "src/content/QuickSurvey.js"
+      ]
+    },
+    {
+      "matches": ["https://my.unpam.ac.id/login*"],
+      "run_at": "document_end",
+      "js": ["src/content/pw.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "src/assets/background.webp"
+      ],
+      "matches": [
+        "https://mentari.unpam.ac.id/*",
+        "https://my.unpam.ac.id/*"
+      ]
+    },
+    {
+      "resources": [
+        "src/assets/icon-128.png",
+        "pet.html",
+        "pet.js"
+      ],
+      "matches": [
+        "https://mentari.unpam.ac.id/*"
+      ]
+    }
+  ],
+  "icons": {
+    "16": "src/assets/icon-16.png",
+    "32": "src/assets/icon-32.png",
+    "48": "src/assets/icon-48.png",
+    "128": "src/assets/icon-128.png"
+  }
+}

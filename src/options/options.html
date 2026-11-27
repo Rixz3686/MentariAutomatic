@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Pengaturan API AI — Mentari Mod</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px 16px;
+        font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+        background:
+          radial-gradient(1px 1px at 12% 16%, rgba(243, 240, 255, 0.72) 50%, transparent 100%),
+          radial-gradient(1.5px 1.5px at 84% 12%, rgba(221, 214, 254, 0.65) 50%, transparent 100%),
+          radial-gradient(ellipse at 82% -10%, rgba(124, 58, 237, 0.28) 0%, transparent 56%),
+          #080614;
+        color: #F3F0FF;
+      }
+      .card {
+        width: 460px;
+        max-width: 100%;
+        background: #0D091F;
+        border: 1px solid rgba(167, 139, 250, 0.32);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 24px 64px rgba(4, 2, 12, 0.68);
+      }
+      .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 15px 20px;
+        background: linear-gradient(135deg, #0B071C 0%, #1F1247 52%, #3B187A 100%);
+        border-bottom: 1px solid rgba(167, 139, 250, 0.22);
+      }
+      .head h1 {
+        margin: 0;
+        font-size: 15px;
+        font-weight: 700;
+        color: #FFFFFF;
+      }
+      .badge {
+        font-size: 10.5px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: #2E1065;
+        color: #EDE9FE;
+        border: 1px solid rgba(167, 139, 250, 0.45);
+      }
+      .body {
+        padding: 18px 20px;
+      }
+      .hint {
+        margin: 0 0 14px;
+        font-size: 12px;
+        line-height: 1.5;
+        color: #C4B5FD;
+      }
+      label {
+        display: block;
+        margin: 12px 0 6px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #C4B5FD;
+      }
+      .input {
+        width: 100%;
+        padding: 10px 12px;
+        background: #15102E;
+        border: 1px solid rgba(167, 139, 250, 0.28);
+        border-radius: 9px;
+        color: #F3F0FF;
+        font-size: 13px;
+        outline: none;
+      }
+      .input:focus {
+        border-color: #8B5CF6;
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+      }
+      .input-wrap {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+      .input-wrap .input {
+        padding-right: 42px;
+      }
+      .icon-btn {
+        position: absolute;
+        right: 6px;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        border-radius: 7px;
+        background: transparent;
+        color: #C4B5FD;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+      .icon-btn:hover {
+        background: rgba(167, 139, 250, 0.16);
+        color: #FFFFFF;
+      }
+      .model-row {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .model-row .input {
+        flex: 1;
+        min-width: 0;
+      }
+      .refresh-btn {
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        border-radius: 9px;
+        border: 1px solid rgba(167, 139, 250, 0.28);
+        background: #15102E;
+        color: #C4B5FD;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+      .refresh-btn:hover:not(:disabled) {
+        background: #1E1742;
+        border-color: #A78BFA;
+        color: #FFFFFF;
+      }
+      .refresh-btn:disabled {
+        opacity: 0.55;
+        cursor: not-allowed;
+      }
+      .sub-hint {
+        margin-top: 6px;
+        font-size: 11px;
+        color: #8B80B8;
+        min-height: 15px;
+      }
+      .reset-row {
+        margin-top: 10px;
+        text-align: right;
+      }
+      .link-btn {
+        background: none;
+        border: none;
+        color: #A78BFA;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        padding: 2px 4px;
+      }
+      .link-btn:hover {
+        color: #DDD6FE;
+        text-decoration: underline;
+      }
+      .msg {
+        margin-top: 12px;
+        padding: 9px 11px;
+        border-radius: 8px;
+        font-size: 12px;
+        line-height: 1.45;
+      }
+      .msg.error {
+        background: rgba(239, 68, 68, 0.16);
+        border: 1px solid rgba(252, 165, 165, 0.35);
+        color: #FCA5A5;
+      }
+      .msg.warn {
+        background: rgba(245, 158, 11, 0.16);
+        border: 1px solid rgba(253, 224, 71, 0.35);
+        color: #FDE68A;
+      }
+      .msg.ok {
+        background: rgba(34, 197, 94, 0.16);
+        border: 1px solid rgba(74, 222, 128, 0.35);
+        color: #86EFAC;
+      }
+      .perm-btn {
+        margin-top: 10px;
+        width: 100%;
+        padding: 9px 12px;
+        border-radius: 9px;
+        background: #1E1742;
+        border: 1px solid rgba(167, 139, 250, 0.45);
+        color: #EDE9FE;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .perm-btn:hover:not(:disabled) {
+        background: #2E1065;
+      }
+      .actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .btn-primary {
+        border: none;
+        border-radius: 9px;
+        padding: 9px 20px;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        color: #FFFFFF;
+        background: linear-gradient(135deg, #4C1D95, #7C3AED);
+      }
+      .btn-primary:disabled,
+      .perm-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .foot {
+        padding: 9px 16px;
+        border-top: 1px solid rgba(167, 139, 250, 0.16);
+        background: #0A0718;
+        text-align: center;
+        font-size: 10.5px;
+        color: #8B80B8;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <div class="head">
+        <h1>Pengaturan API AI</h1>
+        <span class="badge">Aman • Terisolasi</span>
+      </div>
+      <div class="body">
+        <p class="hint">
+          API key disimpan terisolasi di penyimpanan ekstensi (<code>chrome.storage.local</code>) dan tidak pernah diekspos ke DOM halaman kampus.
+        </p>
+
+        <label for="providerSelect">Provider AI</label>
+        <select id="providerSelect" class="input"></select>
+
+        <label for="baseUrlInput">Base URL Endpoint</label>
+        <input id="baseUrlInput" class="input" type="url" placeholder="https://api.openai.com/v1" spellcheck="false" />
+
+        <label for="apiKeyInput">API Key</label>
+        <div class="input-wrap">
+          <input id="apiKeyInput" class="input" type="password" placeholder="Masukkan API key..." autocomplete="off" spellcheck="false" />
+          <button id="toggleVisBtn" class="icon-btn" type="button" aria-label="Tampilkan API Key" title="Tampilkan API Key">Lihat</button>
+        </div>
+
+        <label for="modelSelect">Model AI</label>
+        <div class="model-row">
+          <select id="modelSelect" class="input hidden"></select>
+          <input id="modelInput" class="input" type="text" placeholder="gpt-4o-mini" spellcheck="false" />
+          <button id="loadModelsBtn" class="refresh-btn" type="button" aria-label="Muat daftar model" title="Muat daftar model">&#x21BB;</button>
+        </div>
+        <div id="modelHint" class="sub-hint"></div>
+
+        <div class="reset-row">
+          <button id="resetBtn" class="link-btn" type="button">Kembalikan ke default</button>
+        </div>
+
+        <div id="validationMessage" class="msg hidden" role="status" aria-live="polite"></div>
+        <button id="grantPermBtn" class="perm-btn hidden" type="button"></button>
+
+        <div class="actions">
+          <button id="saveBtn" class="btn-primary" type="button">Simpan Konfigurasi</button>
+        </div>
+      </div>
+      <div class="foot">v3.0 Revised &bull; Tuning by Rixz</div>
+    </main>
+    <script src="../shared/aiProtocol.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

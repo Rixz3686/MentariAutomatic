@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <title>Mentari Mod</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Segoe UI Variable", "Segoe UI", system-ui, -apple-system, sans-serif;
+        width: 268px;
+        margin: 0;
+        padding: 14px;
+        background:
+          radial-gradient(1px 1px at 12% 16%, rgba(243, 240, 255, 0.72) 50%, transparent 100%),
+          radial-gradient(1.5px 1.5px at 84% 12%, rgba(221, 214, 254, 0.65) 50%, transparent 100%),
+          radial-gradient(1px 1px at 66% 32%, rgba(196, 181, 253, 0.55) 50%, transparent 100%),
+          radial-gradient(1px 1px at 22% 76%, rgba(243, 240, 255, 0.48) 50%, transparent 100%),
+          radial-gradient(1.5px 1.5px at 90% 82%, rgba(221, 214, 254, 0.52) 50%, transparent 100%),
+          radial-gradient(ellipse at 82% -10%, rgba(124, 58, 237, 0.28) 0%, transparent 56%),
+          #080614;
+        color: #F3F0FF;
+      }
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      h3 {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.2;
+        color: #F3F0FF;
+        letter-spacing: -0.2px;
+      }
+      .badge {
+        font-size: 10px;
+        font-weight: 700;
+        line-height: 1;
+        padding: 4px 8px;
+        border-radius: 999px;
+        background: #15102E;
+        color: #C4B5FD;
+        border: 1px solid rgba(167, 139, 250, 0.26);
+        font-variant-numeric: tabular-nums;
+      }
+      .badge.active {
+        background: #2E1065;
+        color: #EDE9FE;
+        border-color: rgba(167, 139, 250, 0.45);
+      }
+      .badge.kui {
+        background: #4C1D95;
+        color: #FFFFFF;
+        border-color: rgba(167, 139, 250, 0.55);
+      }
+      .badge.my {
+        background: #1E1B4B;
+        color: #C7D2FE;
+        border-color: rgba(129, 140, 248, 0.45);
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      button {
+        border: none;
+        padding: 9px 12px;
+        width: 100%;
+        border-radius: 9px;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: filter 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+      }
+      button:focus-visible {
+        outline: 2px solid #A78BFA;
+        outline-offset: 2px;
+      }
+      button:active:not(:disabled) {
+        transform: scale(0.98);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #4C1D95, #7C3AED);
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 6px 18px rgba(91, 33, 182, 0.42);
+      }
+      .btn-primary:hover:not(:disabled) {
+        filter: brightness(1.1);
+      }
+      .kbd {
+        font-size: 10px;
+        font-weight: 600;
+        padding: 2px 6px;
+        border-radius: 5px;
+        background: rgba(8, 6, 20, 0.42);
+        color: #EDE9FE;
+      }
+      .btn-secondary {
+        background: #15102E;
+        color: #EDE9FE;
+        border: 1px solid rgba(167, 139, 250, 0.32);
+      }
+      .btn-secondary:hover:not(:disabled) {
+        background: #1E1742;
+        border-color: #A78BFA;
+      }
+      .quick-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px;
+      }
+      .btn-link {
+        background: #15102E;
+        color: #DDD6FE;
+        border: 1px solid rgba(167, 139, 250, 0.22);
+        font-size: 11.5px;
+        padding: 7px 8px;
+      }
+      .btn-link:hover {
+        background: #1E1742;
+        border-color: rgba(167, 139, 250, 0.45);
+      }
+      .hidden {
+        display: none !important;
+      }
+      #status {
+        margin: 9px 0 0;
+        min-height: 15px;
+        font-size: 11px;
+        line-height: 1.35;
+        color: #9D93C4;
+        text-align: center;
+      }
+      #status.error {
+        color: #FCA5A5;
+      }
+      #status.ok {
+        color: #86EFAC;
+      }
+      .credit {
+        margin-top: 8px;
+        padding-top: 7px;
+        border-top: 1px solid rgba(167, 139, 250, 0.16);
+        text-align: center;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        color: #8B80B8;
+      }
+      .credit-sub {
+        margin-top: 2px;
+        font-size: 9.5px;
+        font-weight: 500;
+        color: #71679C;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h3>Mentari Mod</h3>
+      <span id="pageBadge" class="badge">Memuat...</span>
+    </div>
+
+    <div class="stack">
+      <button id="runToken" class="btn-primary" type="button">
+        <span>Buka Panel Mentari</span>
+        <span class="kbd">Alt+Shift+M</span>
+      </button>
+
+      <button id="runKuesioner" class="btn-secondary hidden" type="button">
+        Isi Kuesioner Sekarang
+      </button>
+
+      <button id="grantHostPerm" class="btn-secondary hidden" type="button">
+        Izinkan Akses API Custom
+      </button>
+
+      <button id="openSettings" class="btn-secondary" type="button">
+        Pengaturan API AI
+      </button>
+
+      <div id="quickLinks" class="quick-row hidden">
+        <button id="openMentari" class="btn-link" type="button">Buka MENTARI</button>
+        <button id="openMyUnpam" class="btn-link" type="button">Buka my.unpam</button>
+      </div>
+    </div>
+
+    <p id="status" role="status" aria-live="polite"></p>
+    <div class="credit">
+      v3.0 Revised &bull; Tuning by Rixz
+      <div class="credit-sub">Fork of Alfinas Sandi</div>
+    </div>
+    <script src="../shared/aiProtocol.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
